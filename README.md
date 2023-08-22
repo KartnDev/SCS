@@ -185,6 +185,10 @@ For big teams, it can be micro-service based backend, feature based services or 
 
 This list is the most common children architectures.
 
+## Different architectures can be defined by this diagram:
+
+![img.png](archi_comparation.png)
+
 # SOA + Monolith = Self-contained systems
 
 ![scs.png](scs.png)
@@ -240,4 +244,79 @@ SCS is best used when you do not have a highly loaded system with a large number
 functions, while it can be divided into several different monolithic systems that do not depend or almost do not depend
 on each other, are standalone applications, and systems treat each other only as integration, without which they will
 work the same way, but may not have some small functionality.
+
+
+# Variants for SCS demo project:
+1. Document management system (DMS)
+2. Pet clinic + documentation
+3. Code space
+4. Food delivery business
+
+## Document management system, probable features
+1. (For users) Document direct processing system, including EDS, business processes
+2. (For managers) Document management, import, export, scanning, etc
+3. (For admins) Document's linked entity glossary (Enum/etc management)
+4. (For system) User management system
+5. ?
+
+#### Advantages:
+* The closest topic to customers
+* Having local haulmont examples
+
+#### Disadvantages:
+* Complex
+* Boring
+* Need EDS or placeholders for EDS system
+
+## Pet clinic
+1. Client based pet clinic (Make an appointment with a doctor, buy meds, etc)
+2. Medic based pet clinic (View pets, history of pets, View medication, request for meds, etc)
+3. Management based clinic (View employees, billing etc )
+4. User management system
+
+#### Advantages:
+* Simple 
+* Continue previous project
+* Entertaining project
+
+#### Disadvantages:
+* Topic far from target customers
+* Too simple, will not show advantage of SCS
+
+## Code space
+1. Repository management system (Git repositories crud)
+2. CI/CD system
+3. Documentation system
+4. Bug tracker / Issue tracking system
+5. Dev cloud ?
+6. User management system
+
+#### Advantages:
+* Most complex
+* Closest topic for all programmes
+* Fun project
+
+#### Disadvantages:
+* Most complex
+* Topic far from target customers
+
+## Food delivery business
+1. Client order system
+2. Restaurant (cooking) system
+3. Courier delivery system
+4. Payment system
+5. User management system
+
+#### Advantages:
+* The topic is entirely about business processes
+* Easy to implement
+* Fun project
+
+#### Disadvantages:
+* Most complex
+* Too simple, will not show advantage of SCS
+* Perhaps it will not be so interesting for target customers
+
+
+
 
