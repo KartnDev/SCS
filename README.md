@@ -19,7 +19,7 @@ makes updates restrictive and time-consuming.
 
 Monoliths can be convenient early on in a project's life for ease of code management, cognitive overhead, and
 deployment. This allows everything in the monolith to be released at once. <br/>
-![mono.png](mono.png)
+![mono.png](public/img/mono.png)
 
 ### Advantages of a monolithic architecture
 
@@ -75,7 +75,7 @@ other and contribute to the overall whole.
 
 Adopting microservices often goes hand in hand with DevOps, since they are the basis for continuous delivery practices
 that allow teams to adapt quickly to user requirements.
-![micro.png](micro.png)
+![micro.png](public/img/micro.png)
 
 ### Advantages of microservices
 
@@ -162,7 +162,7 @@ The disadvantages of microservices can include:
   time
   it becomes difficult to know the available services a team can leverage and who to contact for support.
 
-![architecture.png](architecture.png)
+![architecture.png](public/img/architecture.png)
 
 ## Service Oriented Architecture
 
@@ -187,11 +187,11 @@ This list is the most common children architectures.
 
 ## Different architectures can be defined by this diagram:
 
-![img.png](archi_comparation.png)
+![img.png](public/img/archi_comparation.png)
 
 # SOA + Monolith = Self-contained systems
 
-![scs.png](scs.png)
+![scs.png](public/img/scs.png)
 Self-contained systems is several monolith systems that communicate with each other by channels.
 This is new architecture been created for modern monolith frameworks like Jmix and Vaadin.
 
@@ -216,7 +216,7 @@ the best solution, and CSS is also a more modern version of the monolith.
 
 #### Common architecture for big project will look like following:
 
-![prod_scs.png](prod_scs.png)
+![prod_scs.png](public/img/prod_scs.png)
 
 ### The advantages of SCS:
 
@@ -319,9 +319,12 @@ work the same way, but may not have some small functionality.
 
 
 
-# Food Delivery Pet Project:
+# Food Delivery Project:
 
-![SCS_UserFlow-UserOrderFlow.drawio.png](SCS_UserFlow-UserOrderFlow.drawio.png)
+
+## User(Client) Food Delivery Flow:
+
+![SCS_UserFlow-UserOrderFlow.drawio.png](public/img/SCS_UserFlow-UserOrderFlow.drawio.png)
 
 
 
