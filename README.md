@@ -245,14 +245,15 @@ functions, while it can be divided into several different monolithic systems tha
 on each other, are standalone applications, and systems treat each other only as integration, without which they will
 work the same way, but may not have some small functionality.
 
-
 # Variants for SCS demo project:
+
 1. Document management system (DMS)
 2. Pet clinic + documentation
 3. Code space
 4. Food delivery business
 
 ## Document management system, probable features
+
 1. (For users) Document direct processing system, including EDS, business processes
 2. (For managers) Document management, import, export, scanning, etc
 3. (For admins) Document's linked entity glossary (Enum/etc management)
@@ -260,30 +261,36 @@ work the same way, but may not have some small functionality.
 5. ?
 
 #### Advantages:
+
 * The closest topic to customers
 * Having local haulmont examples
 
 #### Disadvantages:
+
 * Complex
 * Boring
 * Need EDS or placeholders for EDS system
 
 ## Pet clinic
+
 1. Client based pet clinic (Make an appointment with a doctor, buy meds, etc)
 2. Medic based pet clinic (View pets, history of pets, View medication, request for meds, etc)
 3. Management based clinic (View employees, billing etc )
 4. User management system
 
 #### Advantages:
-* Simple 
+
+* Simple
 * Continue previous project
 * Entertaining project
 
 #### Disadvantages:
+
 * Topic far from target customers
 * Too simple, will not show advantage of SCS
 
 ## Code space
+
 1. Repository management system (Git repositories crud)
 2. CI/CD system
 3. Documentation system
@@ -292,15 +299,18 @@ work the same way, but may not have some small functionality.
 6. User management system
 
 #### Advantages:
+
 * Most complex
 * Closest topic for all programmes
 * Fun project
 
 #### Disadvantages:
+
 * Most complex
 * Topic far from target customers
 
 ## Food delivery business
+
 1. Client order system
 2. Restaurant (cooking) system
 3. Courier delivery system
@@ -308,39 +318,188 @@ work the same way, but may not have some small functionality.
 5. User management system
 
 #### Advantages:
+
 * The topic is entirely about business processes
 * Easy to implement
 * Fun project
 
 #### Disadvantages:
+
 * Most complex
 * Too simple, will not show advantage of SCS
 * Perhaps it will not be so interesting for target customers
-
-
 
 # Food Delivery Project:
 
 First of all, lets think about architecture.
 Out SCS project will be separated into several logical modules:
+
 * Order System - all authorized users can order any food from restaurants(all authorized roles are permitted).
-* Restaurant System - all authorized users have access only for registration (register own restaurant), if user belongs to
-restaurant, he can accept cook food requests and mark it as done for delivery. Also, he can create menus and menu items(food).
+* Restaurant System - all authorized users have access only for registration (register own restaurant), if user belongs
+  to
+  restaurant, he can accept cook food requests and mark it as done for delivery. Also, he can create menus and menu
+  items(food).
 * Delivery System - all authorized users have access only for registration (register self as courier). As courier,
-user can choose or not delivery requests and do delivery job.
-* User System - shared system for all subsystems of project for user management. Shared users, user roles and details, nothing interesting.
-* Payment System - shared system for request payment, payment for work, refunds and other, also containing history of payments.
-* Notifications System - common system for all subsystems to provide unified notification process (mobile, email, push, etc).
-* Shared Library Subsystem - library for all systems, that contains all ui shared components, styles, fonts; common business function,
-common internal libraries(superstructures over the frameworks), common JPA entities, DTOs, etc.
+  user can choose or not delivery requests and do delivery job.
+* User System - shared system for all subsystems of project for user management. Shared users, user roles and details,
+  nothing interesting.
+* Payment System - shared system for request payment, payment for work, refunds and other, also containing history of
+  payments.
+* Notifications System - common system for all subsystems to provide unified notification process (mobile, email, push,
+  etc).
+* Shared Library Subsystem - library for all systems, that contains all ui shared components, styles, fonts; common
+  business function,
+  common internal libraries(superstructures over the frameworks), common JPA entities, DTOs, etc.
 
+## Order System
 
-## Data Model
+Description of the Order System.
 
+The ordering system is dominant in the work of orders. It will be she who will create slots for cooking at restaurants (
+go to the restaurant system and ask to cook food), will put slots for delivery, and also give commands to the payment
+system from whom to write off money, to whom to pay and those.
 
-## User(Client) Food Delivery Flow:
+### FLOW:
+
+Flow is described below
 
 ![SCS_UserFlow-UserOrderFlow.drawio.png](public/img/SCS_UserFlow-UserOrderFlow.drawio.png)
+
+### Internal Entities:
+
+- Basket(Draft Order) - `ACID`
+- Order (Order) - `ACID`
+- A copy of the restaurant (Restaurant Replica) - `BASE`
+- A copy of the restaurant menu (Menu Replica) - `BASE`
+- Copy of menu slots (Menu Item Replica) - `BASE`
+- A copy of the payment (Payment Peplica) - `BASE`
+- Order History - `ACID`
+- A copy of information about the courier and physical delivery (Courier Replica) - `BASE`
+
+## Restaurant System
+
+Description of the Restaurant System.
+
+The restaurant system is administrative and notifying. The first role of the system is the ability to register
+restaurants, manage the current restaurant menu, restaurant products and those.
+The second opportunity of the restaurant is the opportunity to receive an order and accept it. When receiving an order,
+the restaurant only knows what it needs to cook, and at some time it also knows brief information about the courier to
+whom it needs to give the order. Actions on the request for cooking food - accept it/refuse it/put it in the cooked
+status.
+
+### FLOW 1:
+
+* The user enters the site and logs in
+* He has a single page - to register a restaurant
+* Goes to the registration tab
+* Fills in all the necessary information for restaurant registration
+* Presses ok.
+* He is redirected to the page that his registration request was accepted
+* The administrator comes in, checks the information about the registration request
+* Confirms or rejects the request
+* In case of confirmation of the request, the user becomes the administrator of the restaurant and gets full access over
+  the tenant of the restaurant
+* In case of refusal, you can go to the list of registration requests and view the history, see the reason for rejection
+
+### FLOW 2:
+
+The administrator enters his restaurant, can create a restaurant menu, can create product slots in it, change their
+price and those (Regular CRUD)
+
+### FLOW 3:
+
+* The order system enters the restaurant system and puts a request for cooking food to all the necessary restaurants.
+* An administrator or other available user with a minimal role receives a push notification or simply goes to the tab
+  with requests for cooking food.
+* Rejects or accepts
+* The restaurant system returns to the order system and tells the system what decision the restaurant made.
+* **Prepare food**
+* The administrator or other available user with a minimal role confirms that the order has been prepared
+* Gets information about who is the courier
+* The administrator or other available user with a minimal role confirms that the order has been delivered to the
+  courier
+* For the restaurant, the order is over (the report is saved)
+* After delivery, as the customer receives the food, the Payment System gives the money to the restaurant and a receipt
+  about the report
+
+### Internal Entities:
+
+- Restaurant Registration (RestaurantRegisterRequest) - `ACID`
+- Restaurant (Restaurant) - `ACID`
+- Location (Location) - `ACID` - Shared
+- Menu (Menu) - `ACID`
+- Product (Menu Item) - `ACID`
+- A copy by courier (Courier Replica) - `BASE`
+- Order about cooking (Cook Request) - `ACID`
+- Cooking and Payment Report (Cook Request Report) - `ACID`
+
+## Courier System
+
+Description of the Courier System.
+
+The courier delivery system performs 2 simple tasks - the first of them is finding and navigating the courier, the
+second is hiring couriers and managing them.
+
+### FLOW 1:
+
+* A registered user logs into the system, he displays a single page with his registration as a courier.
+* The user fills in all the data about himself, after which a request is sent to add him to the courier service.
+* The courier service administrator comes in, confirms or rejects the request.
+* In case of rejection, the user receives an email notification and step 1 comes again.
+* In case of confirmation from receives the role of the deliverer.
+
+### FLOW 2:
+
+* All orders in the system are created by the order system.
+* The courier logs into the system.
+* He sees the orders available to him in real time, sorted by geolocation, first the restaurants closest to him
+* Accepts the order he likes, after which it is forbidden to agree to the delivery of other orders
+* Gets to the tab with the current order. He is shown the way to the restaurant and the label where the food should be
+  delivered.
+* Upon arrival at the restaurant, the courier confirms that he is in the restaurant
+* Immediately or after the expiration of the time, the curiosity picks up the food and confirms that he has taken the
+  order
+* **Delivery**
+* As soon as the courier has given the order, he confirms that the order has been given.
+* A report and delivery history are generated
+* There is a payment for the courier's work.
+
+### Internal Entities:
+
+- Request to become a courier (CourierRegisterRequest) - `ACID`
+- Restaurant (Restaurant) - `ACID`
+- Copy of the order (Order Replica) - `BASE`
+- Location (Location) - `ACID`
+- GeoData (GeoMeta) - `BASE`
+
+## Notification System
+
+A simple system that notifies users in the right places, depending on the settings that have been applied in the
+UserSystem.
+
+### Notifications:
+
+- Push
+- Email
+- Sms (pseudo?)
+
+### Entities:
+
+- History (History) - `ACID`
+- Notification (Notification) - `ACID`
+- Report (Report) - `ACID`
+- User Notification Settings (User Notification Settings) - `ACID`
+
+## User System
+
+A system that is, in addition to User Management, also an `ELK` system (a single personal account).
+A possible add-on over `KeyCloak`?
+
+### Flow concepts:
+
+- More convenient use and user management
+- ELK if it is an administrator, where you can configure notifications, change your personal data and those
+- User Provider
 
 
 
