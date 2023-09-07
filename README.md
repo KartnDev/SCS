@@ -321,6 +321,22 @@ work the same way, but may not have some small functionality.
 
 # Food Delivery Project:
 
+First of all, lets think about architecture.
+Out SCS project will be separated into several logical modules:
+* Order System - all authorized users can order any food from restaurants(all authorized roles are permitted).
+* Restaurant System - all authorized users have access only for registration (register own restaurant), if user belongs to
+restaurant, he can accept cook food requests and mark it as done for delivery. Also, he can create menus and menu items(food).
+* Delivery System - all authorized users have access only for registration (register self as courier). As courier,
+user can choose or not delivery requests and do delivery job.
+* User System - shared system for all subsystems of project for user management. Shared users, user roles and details, nothing interesting.
+* Payment System - shared system for request payment, payment for work, refunds and other, also containing history of payments.
+* Notifications System - common system for all subsystems to provide unified notification process (mobile, email, push, etc).
+* Shared Library Subsystem - library for all systems, that contains all ui shared components, styles, fonts; common business function,
+common internal libraries(superstructures over the frameworks), common JPA entities, DTOs, etc.
+
+
+## Data Model
+
 
 ## User(Client) Food Delivery Flow:
 
