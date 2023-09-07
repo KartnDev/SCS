@@ -501,6 +501,28 @@ A possible add-on over `KeyCloak`?
 - ELK if it is an administrator, where you can configure notifications, change your personal data and those
 - User Provider
 
+## Technologies:
 
+* Postgres as ACID database and BASE Json database
+* MinIO file storage
+* Kafka / RabbitMQ for system integration
+* Keycloak for UMS
+* Docker and K8s deployment
+* Jmix 2.0 as a base framework for backoffice ui and backend business logics
+* Vaadin frontend part
+* Spring backend part
+* Flowable (Bpmn Jmix add-on) for business processing
+* Open Layers (Jmix Maps)
+* Jmix Notifications add-on
 
+## Architecture patterns:
+* Sage (inside bpmn)
+* CQRS for data sharing
+* API Composition
+
+## Deployment:
+
+All this we want to deploy like in schema below:
+
+![SCS_Deployment.drawio.png](public%2Fimg%2FSCS_Deployment.drawio.png)
 
