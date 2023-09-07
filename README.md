@@ -522,7 +522,10 @@ A possible add-on over `KeyCloak`?
 
 ## Deployment:
 
-All this we want to deploy like in schema below:
+All this we want to deploy like in the schema below:
 
 ![SCS_Deployment.drawio.png](public%2Fimg%2FSCS_Deployment.drawio.png)
+
+We will use kubernetes to avoid using real load balancers and for easy deployment.
+As a tool, we will use minikube to test our application.
 
